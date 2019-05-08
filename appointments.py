@@ -6,10 +6,15 @@ import util.local as Local
 
 screen_height = 384
 
+def formatDate(date):
+    if ':' in date[-5:]:
+        return ''.join(date.rsplit(':', 1))
+    return date
+
 def calculateDuration(start, end, current):
     current_date = datetime.strptime(current, "%Y-%m-%d")
-    start_date = datetime.strptime(start['dateTime'], "%Y-%m-%dT%H:%M:%S%z")
-    end_date = datetime.strptime(end['dateTime'], "%Y-%m-%dT%H:%M:%S%z")
+    start_date = datetime.strptime(formatDate(start['dateTime']), "%Y-%m-%dT%H:%M:%S%z")
+    end_date = datetime.strptime(formatDate(end['dateTime']), "%Y-%m-%dT%H:%M:%S%z")
     if (current_date + timedelta(days=1)).date() <= end_date.date():
         duration = 'Ganzen Tag'
     else:
